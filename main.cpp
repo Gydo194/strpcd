@@ -6,8 +6,6 @@ int main(int argc, char **argv)
 {
    
     printf("starting...\n");
-    rpcInputHandler::handleRpcInputEvent(4,"test input event");
-    rpcInputHandler::handleRpcInputEvent(4,"test input event");
     
     
     Server rpcCore = Server(9034);

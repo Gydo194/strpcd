@@ -1,6 +1,9 @@
 #include <iostream>
+#include "../Parsers/ProtocolHandler.h"
 
 using namespace std;
+ProtocolHandler ph;
+
 namespace rpcInputHandler
 {
     void handleRpcConnectEvent(uint16_t fd)
@@ -14,6 +17,7 @@ namespace rpcInputHandler
     
     void handleRpcInputEvent(uint16_t fd, char *buffer) {
         cout << "Got input event from fd=" << fd << " with buffer '" << buffer << "'!" << endl;
+        ph.processInput(buffer);
     }
 
 };
