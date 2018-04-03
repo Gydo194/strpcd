@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../Parsers/ProtocolHandler.h"
 #include "../RPC/RPCCall.h"
-
+#include "../Misc/Commons.h"
 
 #define RPC_ACTION_PARAM_NAME "action"
 
@@ -32,11 +32,14 @@ namespace rpcInputHandler
         
         try {
             request.actionName = ph.values.at(RPC_ACTION_PARAM_NAME);
+            //cout << "setting action name =" << request.actionName;
         } catch(out_of_range oor) {
             cout << "HandleInputEvent(): caught out of range; no action parameter defined?" << endl;
         }
         
         //push event
+        evh.pushEvent(request.actionName,request);
+        ph.values.clear(); // IMPORTANT: clear the valuemap!!
         
     }
 
