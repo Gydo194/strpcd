@@ -35,8 +35,6 @@ Server::~Server()
 
 void Server::setup(int port)
 {
-    //std::cout << "[SERVER] [BOOTSTRAP] starting server..." << std::endl;
-
     mastersocket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (mastersocket_fd < 0) {
         perror("Socket creation failed");
@@ -51,8 +49,6 @@ void Server::setup(int port)
     servaddr.sin_port = htons(port);
 
     bzero(input_buffer,INPUT_BUFFER_SIZE); //zero the input buffer before use to avoid random data appearing in first receives
-    //printf("[SERVER] [DEBUG] main fd '%d'\n", mastersocket_fd);
-
 }
 
 void Server::initializeSocket()
