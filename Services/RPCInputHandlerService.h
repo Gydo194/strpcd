@@ -26,7 +26,7 @@ namespace rpcInputHandler
         //rpc param data is in ph.values
         
         rpccall request;
-        request.sourcefd = fd;
+        request.connector.source_fd = fd;
         request.params = ph.values;
         
         
