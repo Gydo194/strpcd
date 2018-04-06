@@ -12,6 +12,7 @@ using namespace std;
 
 //define the extern
 EventHandler<string,rpccall> evh;
+Server server;
 int main(int argc, char **argv)
 {
     printf("[strpcd] starting...\n");
@@ -19,18 +20,14 @@ int main(int argc, char **argv)
     //call action loader
     ActionLoader::loadActions();
     
+    server.setNewConnectionCallback(&rpcInputHandler::handleRpcConnectEvent);
+    server.setDisconnectCallback(&rpcInputHandler::handleRpcDisconnecEvent);
+    server.setReceiveCallBack(&rpcInputHandler::handleRpcInputEvent);
     
-
-    Server rpcCore = Server(9034);
-    
-    rpcCore.setNewConnectionCallback(&rpcInputHandler::handleRpcConnectEvent);
-    rpcCore.setDisconnectCallback(&rpcInputHandler::handleRpcDisconnecEvent);
-    rpcCore.setReceiveCallBack(&rpcInputHandler::handleRpcInputEvent);
-    
-    rpcCore.init();
+    server.init();
     
     while(true) {
-        rpcCore.loop();
+        server.loop();
     }
 	
 	return 0;
