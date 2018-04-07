@@ -5,11 +5,13 @@
 #include <cstring>
 #include <cstdint>
 
+#include "../ServerCore/Server.h"
+
 using namespace std;
 
 struct rpccall {
     map<string,string> params;
-    uint16_t sourcefd;
+    struct Server::Connector connector;
     string actionName; 
 };
 
