@@ -6,6 +6,7 @@
 #include "Client/Client.h"
 #include "../ServerCore/Server.h"
 #include "../Misc/Commons.h"
+#include "../Misc/map_get.h"
 
 using namespace std;
 
@@ -35,7 +36,8 @@ void Actions::unregister_client(rpccall request)
 }
 
 
-void Actions::handle_send(rpccall request) {
+//void Actions::handle_send_2(rpccall request) {
+    void handle_send_2(rpccall request){
     string message;
     string dest;
     
@@ -47,7 +49,7 @@ void Actions::handle_send(rpccall request) {
         cout << "missing msg or dest param" << endl;
     }
     
-    
+    //warn: crappy construction incoming!
     char *m = (char*) malloc(message.size());
     bzero(m,strlen(m)); //note to self: always zero malloc()'ed data!
     
@@ -71,4 +73,20 @@ void Actions::handle_send(rpccall request) {
     printf("Sent '%d' bytes to client '%s' w/fd '%d'.\n",sent,dest.c_str(),destClient.connector.source_fd);
     
     //server.sendTo(request.connector.source_fd,message.c_str()); //build wrapper function using char* and string*, using server::connector instead of its contained fd
+}
+
+
+
+void Actions::handle_send(rpccall request) {
+    string message;
+    string dest;
+    map_get<string,string>(&request.params,CLIENT_MSG_PARAM_NAME,&message);
+    map_get<string,string>(&request.params,CLIENT_MSG_DEST_PARAM_NAME,&dest);
+    cout << "[ACTIONS]handle_send() got message =" << message << endl;
+    cout << "[ACTIONS]handle_send() got msgdest =" << dest << endl;
+    client destinationClient;
+    destinationClient.connector.source_fd = 0;
+    map_get<string,client>(&ClientManager::clients,dest,&destinationClient);
+    cout << "[ACTIONS]handle_send() got destinationClient.connector.source_fd =" << destinationClient.connector.source_fd << endl;
+    server.sendMessage(destinationClient.connector,message.c_str());
 }

@@ -48,6 +48,7 @@ public:
     void setReceiveCallBack(void (*rc)(uint16_t fd, char *buffer));
     void setDisconnectCallback(void (*dc)(uint16_t fd));
     void sendMessage(uint16_t fd, void *messageBuffer);
+    uint16_t sendMessage(Connector conn, const char *messageBuffer);
     uint16_t sendMessage(Connector conn, char *messageBuffer);
 
 private:

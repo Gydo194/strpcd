@@ -203,3 +203,7 @@ void Server::sendMessage(uint16_t fd, void* messageBuffer)
 uint16_t Server::sendMessage(Connector conn, char *messageBuffer) {
     return send(conn.source_fd,messageBuffer,strlen(messageBuffer),0);
 }
+
+uint16_t Server::sendMessage(Connector conn, const char *messageBuffer) {
+    return send(conn.source_fd,messageBuffer,strlen(messageBuffer),0);
+}
